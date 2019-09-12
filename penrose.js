@@ -1,0 +1,148 @@
+let vertices = [[0,0,0,0,0],//中心
+		[1,0,0,0,0],//10等分したそれぞれの点を五次元座標に
+		[0,1,0,0,0],
+		[0,0,1,0,0],
+		[0,0,0,1,0],
+		[0,0,0,0,1],
+		[-1,0,0,0,0],
+		[0,-1,0,0,0],
+		[0,0,-1,0,0],
+		[0,0,0,-1,0],
+		[0,0,0,0,-1],
+	       ];
+let Atriangles=[[0,1,2],//三角形に向きをつけた
+		[0,3,2],
+		[0,3,4],
+		[0,5,4],
+		[0,5,6],
+		[0,7,6],
+		[0,7,8],
+		[0,9,8],
+		[0,9,10],
+		[0,1,10]
+	       ];
+let Btriangles = [];
+
+
+function expand(x){//拡大
+    return[x[1]-x[4],
+	   x[0]+x[2],
+	   x[1]+x[3],
+	   x[2]+x[4],
+	   x[3]-x[0]
+	  ];
+}
+
+function subdivide(x,y){//拡大後細分
+    let m = expand(x);
+    return[m[0]-x[0]+y[0],
+	   m[1]-x[1]+y[1],
+	   m[2]-x[2]+y[2],
+	   m[3]-x[3]+y[3],
+	   m[4]-x[4]+y[4]
+	  ];
+}
+
+function project(x){//五次元を二次元座標に表す
+    let p=0;
+    let q=0;
+    for(let i=0; i<5; i++){
+	p += x[i]*Math.cos(i*Math.PI/5);
+	q += x[i]*Math.sin(i*Math.PI/5);
+    }
+    return {x:400+p*40,y:400-q*40};
+}
+
+function AExpSub(T){//拡大細分後の４頂点を加えていく
+    let V = [];
+    V.push(expand(vertices[T[0]]));
+    V.push(expand(vertices[T[1]]));
+    V.push(expand(vertices[T[2]]));
+    V.push(subdivide(vertices[T[0]],vertices[T[1]]));//細分
+    return(V);   
+}
+function BExpSub(T){//拡大細分後の４頂点を加えていく
+    let V = [];
+    V.push(expand(vertices[T[0]]));
+    V.push(expand(vertices[T[1]]));
+    V.push(expand(vertices[T[2]]));
+    V.push(subdivide(vertices[T[0]],vertices[T[1]]));//細分
+    V.push(subdivide(vertices[T[0]],vertices[T[2]]));//細分
+    return(V);   
+}
+
+function pointEq(p,q){
+    for(let i in p){//iにindexが入る
+	if(p[i] != q[i]) return false;
+    } return true;
+}
+
+function contained(p,V){
+    for(let i in V){
+	if(pointEq(p,V[i])){
+	    return parseInt(i);
+	}
+
+    }
+    return V.length;
+}
+
+function allAExpSub(){//全てのA型三角を拡大細分してできる頂点集合を返す
+    let V = [];
+    let A = [];
+    let B = [];
+    for(let T of Atriangles){//一枚取り出す
+	let idx = [];
+	for(let p of AExpSub(T)){//拡大細分した4点の五次元座標を一つ取り出す
+	    idx.push(contained(p,V));//細分した4点のVにおけるインデックス
+	    if(contained(p,V)==V.length){//含まれていないときは
+		V.push(p);//Vに付け足す
+	    }
+	}
+	A.push([idx[2],idx[3],idx[1]]);//A型三角形のVのインデックス
+	B.push([idx[2],idx[3],idx[0]]);//B型三角形のVのインデックス
+    }
+    //この後にBを付け加える
+    for(let T of Btriangles){//(一枚取り出す)
+	let idx = [];
+	for(let p of BExpSub(T)){//(拡大細分して)
+	    idx.push(contained(p,V));
+	    if(contained(p,V)==V.length){//含まれていないときは
+		V.push(p);
+	    }
+	}
+	A.push([idx[4],idx[3],idx[1]]);
+	B.push([idx[4],idx[3],idx[0]]);
+	B.push([idx[2],idx[4],idx[1]]);
+	
+    }
+    return({V:V,A:A,B:B});
+    
+}
+//AtrianglesとBTrianglesに入れる
+for(let i=0;i<4;i++){
+    let tiling=allAExpSub();//allAExpSub() を実行し、V(頂点情報)、A(A型三角形のインデックス)、B(B型三角形のインデックス)が返る
+    vertices=tiling.V;//verticesにVを入れ
+    Atriangles = tiling.A;
+    Btriangles = tiling.B;
+}
+
+//描画のため
+let Astr = [];
+for(let T of Atriangles.concat(Btriangles)){//Atriangles[0]から丸ごとTに入れていく
+    let triangleStr = "";
+    for(let v of T){
+	triangleStr += (" " + project(vertices[v]).x + " " +  project(vertices[v]).y)
+    }
+    Astr.push(triangleStr);
+}
+
+
+
+
+let app = new Vue({
+    el: '#penrose', //penroseというidをもつエレメントに書き込み
+    data: {
+	triangles : Astr // Astrをtriangles として渡す
+    }
+});
