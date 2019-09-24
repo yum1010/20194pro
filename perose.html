@@ -2,11 +2,13 @@
   <head>
     <title> penrose tiling </title>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link rel="stylesheet" type="text/css" href="penrose.css"></link>
   </head>
   
   <body>
     <svg id="penrose" width="800" height="800">
-       <polygon v-for="t in triangles" :points="t" stroke="black" fill="cyan"> </polygon>
+      <polygon v-for="t in Arhombi" :points="t" stroke="black" fill="blue"> </polygon>
+      <polygon v-for="t in Brhombi" :points="t" stroke="black" fill="cyan"> </polygon>
       
     </svg>
     <script src="penrose.js"></script>

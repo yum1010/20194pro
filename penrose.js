@@ -127,14 +127,44 @@ for(let i=0;i<4;i++){
     Btriangles = tiling.B;
 }
 
+//ひし形作る
+let Arhombi=[];
+for(let i=0;i<Atriangles.length;i++){
+    for(let j=i+1;j<Atriangles.length;j++){
+	if(Atriangles[i][1]==Atriangles[j][1]&&
+	   Atriangles[i][2]==Atriangles[j][2]){
+	    Arhombi.push([Atriangles[i][0],Atriangles[i][1],Atriangles[j][0],Atriangles[j][2]]);
+	}
+    }
+}
+
+let Brhombi=[];
+for(let i=0;i<Btriangles.length;i++){
+    for(let j=i+1;j<Btriangles.length;j++){
+	if(Btriangles[i][0]==Btriangles[j][0]&&
+	   Btriangles[i][2]==Btriangles[j][2]){
+	    Brhombi.push([Btriangles[i][0],Btriangles[i][1],Btriangles[j][2],Btriangles[j][1]]);
+	}
+    }
+}
+
+
 //描画のため
 let Astr = [];
-for(let T of Atriangles.concat(Btriangles)){//Atriangles[0]から丸ごとTに入れていく
+for(let T of Arhombi){//Atriangles[0]から丸ごとTに入れていく
     let triangleStr = "";
     for(let v of T){
 	triangleStr += (" " + project(vertices[v]).x + " " +  project(vertices[v]).y)
     }
     Astr.push(triangleStr);
+}
+let Bstr = [];
+for(let T of Brhombi){//Atriangles[0]から丸ごとTに入れていく
+    let triangleStr = "";
+    for(let v of T){
+	triangleStr += (" " + project(vertices[v]).x + " " +  project(vertices[v]).y)
+    }
+    Bstr.push(triangleStr);
 }
 
 
@@ -143,6 +173,7 @@ for(let T of Atriangles.concat(Btriangles)){//Atriangles[0]から丸ごとTに�
 let app = new Vue({
     el: '#penrose', //penroseというidをもつエレメントに書き込み
     data: {
-	triangles : Astr // Astrをtriangles として渡す
+	Arhombi : Astr,
+	Brhombi : Bstr,	
     }
 });

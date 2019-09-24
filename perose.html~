@@ -6,7 +6,8 @@
   
   <body>
     <svg id="penrose" width="800" height="800">
-      <circle v-for="p in xy" :cx="100*p.x+400" :cy="100*p.y+400" :r="20"> </circle> 
+       <polygon v-for="t in triangles" :points="t" stroke="black" fill="cyan"> </polygon>
+      
     </svg>
     <script src="penrose.js"></script>
   </body>

@@ -1,0 +1,6 @@
+polygon{
+    fill-opacity: 0.5
+}
+polygon:hover{
+    fill-opacity: 1
+}
