@@ -147,6 +147,7 @@ for(let i=0;i<Btriangles.length;i++){
 	}
     }
 }
+let rhombi=Arhombi.concat(Brhombi);
 
 
 //描画のため
@@ -167,6 +168,49 @@ for(let T of Brhombi){//Atriangles[0]から丸ごとTに入れていく
     Bstr.push(triangleStr);
 }
 
+let Rstr = [];//A型もB型も入ってる
+for(let T of rhombi){//Atriangles[0]から丸ごとTに入れていく
+    let triangleStr = "";
+    for(let v of T){
+	triangleStr += (" " + project(vertices[v]).x + " " +  project(vertices[v]).y)
+    }
+    Rstr.push(triangleStr);
+}
+
+let onoff=[];
+let guided=[];
+for(let r of rhombi){
+    onoff.push(0);//初期値0
+    guided.push(0);
+}
+
+
+function isAdjacent(r,s){//二つのひし形r,sが隣接しているか
+    let count=0;
+    for(let v of r){
+	for(let w of s){
+	    if(v==w){
+		count++;
+	    }
+	}
+    }
+    if(count==2){
+	return true;
+    }else{
+	return false;
+    }
+}
+
+let adjacentList = [];//それに隣接するひし形の添え字
+for(let i in rhombi){
+    let alist=[];//一つのrhonbi
+    for(let j in rhombi){
+	if(isAdjacent(rhombi[i],rhombi[j])){
+	    alist.push(j);
+	}
+    }
+    adjacentList.push(alist);
+}
 
 
 
@@ -174,6 +218,30 @@ let app = new Vue({
     el: '#penrose', //penroseというidをもつエレメントに書き込み
     data: {
 	Arhombi : Astr,
-	Brhombi : Bstr,	
+	Brhombi : Bstr,
+	rhombi : Rstr,
+	onoff : onoff,
+	adjacentList : adjacentList,
+	guided : guided,
+    },
+    methods: {//action
+	toggle: function(i){
+	    this.onoff.splice(i,1,1-this.onoff[i]);//i番目を1つだけ1なら0に0なら1に	    
+	    for(let j of this.adjacentList[i]){//隣接するひし形を一つ取り出して
+		this.onoff.splice(j,1,1-this.onoff[j]);//隣接するひし形反転
+	    }
+	},
+	guide: function(i){
+	    this.guided.splice(i,1,1);//i番目を1つだけ1なら0に0なら1に	    
+	    for(let j of this.adjacentList[i]){//隣接するひし形を一つ取り出して
+		this.guided.splice(j,1,1);//隣接するひし形反転
+	    }
+	},
+	unguide: function(i){
+	    this.guided.splice(i,1,0);//i番目を1つだけ1なら0に0なら1に	    
+	    for(let j of this.adjacentList[i]){//隣接するひし形を一つ取り出して
+		this.guided.splice(j,1,0);//隣接するひし形反転
+	    }
+	}
     }
 });

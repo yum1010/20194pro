@@ -7,9 +7,15 @@
   
   <body>
     <svg id="penrose" width="800" height="800">
-      <polygon v-for="t in Arhombi" :points="t" stroke="black" fill="blue"> </polygon>
-      <polygon v-for="t in Brhombi" :points="t" stroke="black" fill="cyan"> </polygon>
-      
+      <polygon v-for="(t,i) in rhombi"
+	       @click="toggle(i)"
+	       @mouseover="guide(i)"
+	       @mouseleave="unguide(i)"
+	       :points="t"
+	       :stroke="guided[i]==1? 'red' : 'black'"
+	       :fill="onoff[i]==1? 'pink' : 'cyan'"
+	       :fill-opacity="guided[i]==1? 0:1">
+      </polygon>   
     </svg>
     <script src="penrose.js"></script>
   </body>
