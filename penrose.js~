@@ -181,7 +181,7 @@ let onoff=[];
 let guided=[];
 for(let r of rhombi){
     onoff.push(0);//初期値0
-    onoff.push(1);
+    guided.push(0);
 }
 
 
@@ -234,7 +234,8 @@ let app = new Vue({
 	guide: function(i){
 	    this.guided.splice(i,1,1);//i番目を1つだけ1なら0に0なら1に	    
 	    for(let j of this.adjacentList[i]){//隣接するひし形を一つ取り出して
-		this.guided.splice(j,1,1));//隣接するひし形反転
+		this.guided.splice(j,1,1);//隣接するひし形反転
+	    }
 	},
 	unguide: function(i){
 	    this.guided.splice(i,1,0);//i番目を1つだけ1なら0に0なら1に	    
