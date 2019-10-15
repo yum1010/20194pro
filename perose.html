@@ -7,15 +7,8 @@
   
   <body>
     <svg id="penrose" width="800" height="800">
-      <polygon v-for="(t,i) in rhombi"
-	       @click="toggle(i)"
-	       @mouseover="guide(i)"
-	       @mouseleave="unguide(i)"
-	       :points="t"
-	       :stroke="guided[i]==1? 'red' : 'black'"
-	       :fill="onoff[i]==1? 'pink' : 'cyan'"
-	       :fill-opacity="guided[i]==1? 0:1">
-      </polygon>   
+      <tile v-for="(t,i) in rhombi" :points="t"></tile>
+      <ansbutton></ansbutton>  
     </svg>
     <script src="penrose.js"></script>
   </body>

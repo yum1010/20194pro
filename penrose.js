@@ -206,7 +206,6 @@ function isAdjacent(r,s){//二つのひし形r,sが隣接しているか
 let A= [];//スイッチ行列(押すことで反転する場所)
 for(let i in rhombi){
     A.push([]);
-    A[i][i]=1;//自分自身も反転
     for(let j in rhombi){
 	A[i].push(0);
     }
@@ -216,10 +215,11 @@ for(let i in rhombi){
 let adjacentList = [];//それに隣接するひし形の添え字
 for(let i in rhombi){
     let alist=[];//一つのrhonbi
+    A[i][i]=1;//自分自身も反転
     for(let j in rhombi){
 	if(isAdjacent(rhombi[i],rhombi[j])){//ひし形iとjが隣接してるなら
 	    alist.push(j);
-	    A[i][j]=1;//スイッチ行列に1を
+	    A[j][i]=1;//スイッチ行列に1を
 	}
     }
     adjacentList.push(alist);
@@ -264,13 +264,44 @@ function gauss(A) {
     for (let i=n-1; i>-1; i--) {
         x[i] = A[i][n];
         for (let k=i-1; k>-1; k--) {
-            A[k][n] = (A[k][n] - A[k][i] * x[i])%2;
+            A[k][n] = (A[k][n] + A[k][i] * x[i])%2;
         }
     }
     return x;
 }
 let M=[[1,1,1],[0,1,1]];
 console.log(gauss(M));
+
+Vue.component('ansbutton',{
+    template: '<g @click="answer" transform="translate(50,750)">'+
+	'<rect  width=100 height=50 stroke="cyan" fill="white"></rect>'+
+	'<text x=20 y=30> answer </text>'+
+	'</g>',
+    methods:{
+	answer:function(){
+	    for(let i in onoff){
+		A[i].push(onoff[i]);
+	    }
+	    console.log(gauss(A));
+	}
+    }
+})
+
+Vue.component('tile',{
+    template:'<polygon :points="points" ></polygon>',
+    props:['points'],
+    /*
+     <polygon v-for="(t,i) in rhombi"
+	       @click="toggle(i)"
+	       @mouseover="guide(i)"
+	       @mouseleave="unguide(i)"
+	       :points="t"
+	       :stroke="guided[i]==1? 'red' : 'black'"
+	       :fill="onoff[i]==1? 'pink' : 'cyan'"
+	       :fill-opacity="guided[i]==1? 0:1">
+      </polygon>
+*/
+})
 
 
 let app = new Vue({
@@ -291,6 +322,7 @@ let app = new Vue({
 	    }
 	},
 	guide: function(i){
+	    console.log(i);
 	    this.guided.splice(i,1,1);//i番目を1つだけ1なら0に0なら1に	    
 	    for(let j of this.adjacentList[i]){//隣接するひし形を一つ取り出して
 		this.guided.splice(j,1,1);//隣接するひし形反転
@@ -302,5 +334,6 @@ let app = new Vue({
 		this.guided.splice(j,1,0);//隣接するひし形反転
 	    }
 	}
+
     }
 });
