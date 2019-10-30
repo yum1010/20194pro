@@ -7,7 +7,7 @@
   
   <body>
     <svg id="penrose" width="800" height="800">
-      <tile v-for="(t,i) in rhombi" :points="t"></tile>
+      <tile v-for="(t,i) in rhombi" :points="t" :onoff="onoff[i]" @toggle="toggle(i)"></tile>
       <ansbutton></ansbutton>  
     </svg>
     <script src="penrose.js"></script>

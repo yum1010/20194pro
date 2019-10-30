@@ -288,8 +288,13 @@ Vue.component('ansbutton',{
 })
 
 Vue.component('tile',{
-    template:'<polygon :points="points" ></polygon>',
-    props:['points'],
+    template:'<polygon :points="points" :fill="onoff==1? \'pink\' : \'cyan\'" stroke="black" @click="toggle"></polygon>',
+    props:['points','onoff'],
+    methods:{
+	toggle(){
+	    this.$emit('toggle');
+	}
+    }
     /*
      <polygon v-for="(t,i) in rhombi"
 	       @click="toggle(i)"
@@ -316,6 +321,7 @@ let app = new Vue({
     },
     methods: {//action
 	toggle: function(i){
+	   // console.log(i);
 	    this.onoff.splice(i,1,1-this.onoff[i]);//i番目を1つだけ1なら0に0なら1に	    
 	    for(let j of this.adjacentList[i]){//隣接するひし形を一つ取り出して
 		this.onoff.splice(j,1,1-this.onoff[j]);//隣接するひし形反転

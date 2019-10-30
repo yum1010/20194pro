@@ -1,0 +1,15 @@
+<template>
+  <g @click="answer" transform="translate(50,750)">
+    <rect  width=100 height=50 stroke="cyan" fill="white"></rect>
+    <text x=20 y=30> answer </text>
+  </g>
+</template>
+<script>
+export default{
+    methods:{
+	answer:function(){
+	    console.log("clicked")
+	}
+    }
+}
+</script>
