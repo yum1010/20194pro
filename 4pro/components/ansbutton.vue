@@ -8,7 +8,7 @@
 export default{
     methods:{
 	answer:function(){
-	    console.log("clicked")
+	    this.$emit('solve');
 	}
     }
 }

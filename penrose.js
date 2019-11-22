@@ -280,7 +280,7 @@ Vue.component('ansbutton',{
     methods:{
 	answer:function(){
 	    for(let i in onoff){
-		A[i].push(onoff[i]);
+		A[i].push(onoff[i]);//現在の盤面を付け加える
 	    }
 	    console.log(gauss(A));
 	}

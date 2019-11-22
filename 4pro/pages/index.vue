@@ -3,19 +3,24 @@
     column
     justify-center
     align-center
-  >
-   <board></board>
+     >
+    <v-select :items="[1,2,3,4]" label="level" v-model="N"></v-select>
+   <board :N="N"></board>
   </v-layout>
 </template>
 
 <script>
 import board from '~/components/board.vue'
-import tile from '~/components/tile.vue'
 
-export default {
-  components: {
-      board,
-      tile
+export default{
+  components:{
+      board
   },
+    data(){
+	return{
+	    N:2
+	}
+    }
+    
 }
 </script>
