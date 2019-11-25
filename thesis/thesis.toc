@@ -1,5 +1,6 @@
 \contentsline {chapter}{\numberline {第1章}序}{2}% 
 \contentsline {chapter}{\numberline {第2章}ペンローズタイル張り}{3}% 
-\contentsline {section}{\numberline {2.1}ペンローズタイルの構成}{3}% 
-\contentsline {chapter}{\numberline {第3章}ライツアウト}{7}% 
-\contentsline {section}{\numberline {3.1}構成法}{7}% 
+\contentsline {section}{\numberline {2.1}ペンローズタイルについて}{3}% 
+\contentsline {section}{\numberline {2.2}ペンローズタイルの構成}{3}% 
+\contentsline {chapter}{\numberline {第3章}ライツアウト}{9}% 
+\contentsline {section}{\numberline {3.1}構成法}{9}% 
