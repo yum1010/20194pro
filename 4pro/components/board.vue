@@ -5,6 +5,7 @@
 	@toggle="toggle"
 	></tile>
   <ansbutton @solve="solve"></ansbutton>
+  <text x="350" y="400" font-size="26px" v-if="completed" stroke="black"> Completed </text>
 </svg>
 </template>
 
@@ -22,16 +23,17 @@ export default{
 	return{
 	    onoff:[],//ボードの状態
 	    guided:[],//答え
-	    rhombi:null
+	    rhombi:null,
+	    completed:false
 	}
     },
     created(){//一回だけ
 	this.onoff=[];
 	this.guided=[];
-	    for(let t in this.tiling){
-		this.onoff.push(1);
-		this.guided.push(false);
-	    }
+	for(let t in this.tiling){
+	    this.onoff.push(1);
+	    this.guided.push(false);
+	}
     },
     watch:{//Nが書き換わったとき
 	N: function(){
@@ -41,6 +43,7 @@ export default{
 		this.onoff.push(1);
 		this.guided.push(false);
 	    }
+	    this.completed=false;
 	}
     },
     methods:{
@@ -51,6 +54,19 @@ export default{
 		this.onoff.splice(j,1,1-this.onoff[j]);//隣接するひし形反転
 	    }
 	    this.guided.splice(i,1,false);
+	    if(this.alloff()){
+		this.completed=true;
+	    }
+	},
+	alloff:function(i){
+	    let off = true;
+	    for(let x of this.onoff){
+		if(x == 1){//一つでもついているところがあったら
+		    off = false;
+		    break;
+		}
+	    }
+	    return off;
 	},
 	isAdjacent: function(r,s){//二つのひし形r,sが隣接しているか
 	    let count=0;

@@ -3,4 +3,8 @@
 \contentsline {section}{\numberline {2.1}ペンローズタイルについて}{3}% 
 \contentsline {section}{\numberline {2.2}ペンローズタイルの構成}{3}% 
 \contentsline {chapter}{\numberline {第3章}ライツアウト}{9}% 
-\contentsline {section}{\numberline {3.1}構成法}{9}% 
+\contentsline {section}{\numberline {3.1}ライツアウトのルール}{9}% 
+\contentsline {section}{\numberline {3.2}$p$元体\tmspace +\thinmuskip {.1667em}$\mathbb {F}_p$について}{9}% 
+\contentsline {section}{\numberline {3.3}デジタル表現}{10}% 
+\contentsline {section}{\numberline {3.4}ライツアウトの解法}{11}% 
+\contentsline {section}{\numberline {3.5}解のないライツアウト}{12}% 
